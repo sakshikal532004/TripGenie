@@ -1,0 +1,41 @@
+# Environment
+.env
+.env.*
+
+# Python
+__pycache__/
+*.py[cod]
+*.pyo
+
+# Virtual environment
+venv/
+.venv/
+
+# Chroma database
+chroma_db/
+
+# SQLite memory
+*.db
+
+# Node
+node_modules/
+frontend/node_modules/
+
+# Frontend build
+frontend/dist/
+
+# Logs
+*.log
+
+# IDE
+.vscode/
+.idea/
+
+# OS
+.DS_Store
+Thumbs.db
+
+# SQLite Memory
+*.db
+*.db-shm
+*.db-wal
