@@ -8,16 +8,25 @@ from langchain_chroma import Chroma
 BASE_DIR = Path(__file__).resolve().parent.parent
 CHROMA_DIR = BASE_DIR / "chroma_db"
 
+_embeddings = None
+_vectorstore = None
 
-embeddings = HuggingFaceEmbeddings(
-    model_name="sentence-transformers/all-MiniLM-L6-v2"
-)
 
-vectorstore = Chroma(
-    persist_directory=str(CHROMA_DIR),
-    embedding_function=embeddings,
-    collection_name="travel_knowledge"
-)
+def get_vectorstore():
+    global _embeddings, _vectorstore
+
+    if _vectorstore is None:
+        _embeddings = HuggingFaceEmbeddings(
+            model_name="sentence-transformers/all-MiniLM-L6-v2"
+        )
+
+        _vectorstore = Chroma(
+            persist_directory=str(CHROMA_DIR),
+            embedding_function=_embeddings,
+            collection_name="travel_knowledge"
+        )
+
+    return _vectorstore
 
 
 @tool
@@ -34,6 +43,8 @@ def retrieve_travel_info(query: str) -> str:
     - transportation
     - destination information
     """
+
+    vectorstore = get_vectorstore()
 
     results = vectorstore.similarity_search(
         query,
